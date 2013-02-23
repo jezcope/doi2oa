@@ -10,6 +10,12 @@ class Oai < Thor
     response = client.identify
     puts "Repository name: #{response.repository_name}"
     puts "Admin email: #{response.admin_email}"
+    puts "Base URL: #{response.base_url}"
+    puts "Compression: #{response.compression}"
+    puts "Deleted record: #{response.deleted_record}"
+    puts "Earliest datestamp: #{response.earliest_datestamp}"
+    puts "Granularity: #{response.granularity}"
+    puts "Protocol: #{response.protocol}"
   end
 
   desc 'list_records [ENDPOINT]', 'list records in a repository'

@@ -52,19 +52,26 @@ describe Repository, :models => true do
       vcr: { cassette_name: "repository/list_records",
         record: :new_episodes } do
 
+      before(:all) do
+        @repository = Repository.find_or_create(base_url: "http://opus.bath.ac.uk/cgi/oai2")
+      end
+        
       it "should fetch records from the server" do
-        r = Repository.find_or_create(base_url: "http://opus.bath.ac.uk/cgi/oai2")
-        records, resumption_token = r.list_records
-
+        records, resumption_token = @repository.list_records
         records.length.should == 13
+        records.each do |doi|
+          doi.repository.should == @repository
+        end
       end
 
       it "should fetch more records from the server" do
-        r = Repository.find_or_create(base_url: "http://opus.bath.ac.uk/cgi/oai2")
-        records, resumption_token = r.list_records
-        records, resumption_token = r.list_records resumption_token
+        records, resumption_token = @repository.list_records
+        records, resumption_token = @repository.list_records resumption_token
 
         records.length.should == 16
+        records.each do |doi|
+          doi.repository.should == @repository
+        end
       end
 
     end

@@ -31,26 +31,18 @@ describe Repository, :models => true do
       .should_not be_valid
   end
 
-  describe "server interaction" do
-
-    before do
-      require 'oai'
-
-      @response = double("response",
-                        repository_name:  "Test repo",
-                        admin_email:      "example@bath.ac.uk",
-                        earliest_datestamp: 3.years.ago)
-      @client = double("client", identify: @response)
-      OAI::Client.stub(:new).and_return(@client)
-    end
+  vcr_options = { 
+    cassette_name: "repository/identify", record: :new_episodes }
+  describe "server interaction", vcr: vcr_options do
 
     it "should fetch information from the server" do
+
       r = Repository.new(base_url: "http://opus.bath.ac.uk/cgi/oai2")
       r.fetch_info_from_server
 
-      r.name.should               == @response.repository_name
-      r.admin_email.should        == @response.admin_email
-      r.earliest_datestamp.should == @response.earliest_datestamp
+      r.name.should               == "Opus"
+      r.admin_email.should        == "opus-support@bath.ac.uk"
+      r.earliest_datestamp.should == "2008-12-05T11:39:41Z"
     end
 
   end

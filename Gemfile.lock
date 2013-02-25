@@ -39,6 +39,7 @@ GEM
     sys-uname (0.9.1)
       ffi (>= 1.0.0)
     thor (0.17.0)
+    vcr (2.4.0)
 
 PLATFORMS
   ruby
@@ -56,3 +57,4 @@ DEPENDENCIES
   sequel
   sqlite3
   thor
+  vcr

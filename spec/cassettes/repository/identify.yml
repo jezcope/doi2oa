@@ -1,0 +1,92 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://opus.bath.ac.uk/cgi/oai2?verb=Identify
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: !!null 
+    headers:
+      date:
+      - Mon, 25 Feb 2013 08:03:04 GMT
+      server:
+      - Apache/2.2.3 (Red Hat)
+      cache-control:
+      - no-store, no-cache, must-revalidate
+      connection:
+      - close
+      transfer-encoding:
+      - chunked
+      content-type:
+      - text/xml; charset=UTF-8
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='UTF-8'?>\n<?xml-stylesheet type='text/xsl'
+        href='/oai2.xsl' ?>\n<OAI-PMH xmlns=\"http://www.openarchives.org/OAI/2.0/\"
+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/
+        http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd\">\n  <responseDate>2013-02-25T08:03:06Z</responseDate>\n
+        \ <request verb=\"Identify\">http://opus.bath.ac.uk/cgi/oai2</request>\n  <Identify>\n
+        \   <repositoryName>Opus</repositoryName>\n    <baseURL>http://opus.bath.ac.uk/cgi/oai2</baseURL>\n
+        \   <protocolVersion>2.0</protocolVersion>\n    <adminEmail>opus-support@bath.ac.uk</adminEmail>\n
+        \   <earliestDatestamp>2008-12-05T11:39:41Z</earliestDatestamp>\n    <deletedRecord>persistent</deletedRecord>\n
+        \   <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>\n    <description>\n      <oai-identifier
+        xmlns=\"http://www.openarchives.org/OAI/2.0/oai-identifier\" xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai-identifier
+        http://www.openarchives.org/OAI/2.0/oai-identifier.xsd\">\n        <scheme>oai</scheme>\n
+        \       <repositoryIdentifier>opus.bath.ac.uk</repositoryIdentifier>\n        <delimiter>:</delimiter>\n
+        \       <sampleIdentifier>oai:opus.bath.ac.uk:3460</sampleIdentifier>\n      </oai-identifier>\n
+        \   </description>\n    <description>\n      <eprints xmlns=\"http://www.openarchives.org/OAI/1.1/eprints\"
+        xsi:schemaLocation=\"http://www.openarchives.org/OAI/1.1/eprints http://www.openarchives.org/OAI/1.1/eprints.xsd\">\n
+        \       <content>\n          <text>1. This is an institutional or departmental
+        repository.\n2. University of Bath Opus is restricted to:\n   (a) Journal
+        articles\n   (b) Bibliographic references\n   (c) Conference and workshop
+        papers\n   (d) Theses and dissertations\n   (e) Unpublished reports and working
+        papers\n   (f) Books, chapters and sections\n   (g) Datasets\n   (h) Patents\n3.
+        Deposited items may include:\n   (a) working drafts\n   (b) submitted versions
+        (as sent to journals for peer-review)\n   (c) accepted versions (author's
+        final peer-reviewed drafts)\n   (d) published versions (publisher-created
+        files)\n4. Items are individually tagged with:\n   (a) their peer-review status.\n
+        \  (b) their publication status.\n</text>\n        </content>\n        <metadataPolicy>\n
+        \         <text>1. Anyone may access the metadata free of charge.\n2. The
+        metadata may be re-used in any medium without prior permission for\nnot-for-profit
+        purposes\n3. The metadata must not be re-used in any medium for commercial
+        purposes\nwithout formal permission.\n</text>\n        </metadataPolicy>\n
+        \       <dataPolicy>\n          <text>1. Anyone may access full items free
+        of charge.\n2. Copies of full items generally can be:\n   (a) reproduced\n
+        \  (b) for personal research or study, educational, or not-for-profit\npurposes
+        without prior permission or charge.\n3. Full items must not be sold commercially
+        in any format or medium without\nformal permission of the copyright holders.\n4.
+        Some full items are individually tagged with different rights\npermissions
+        and conditions.\n</text>\n        </dataPolicy>\n        <submissionPolicy>\n
+        \         <text>1. Items may only be deposited by academic staff, and registered
+        students\nof the institution, or their delegated agents.\n2. The administrator
+        only vets items for relevance to the scope of\nUniversity of Bath Opus, and
+        valid layout &amp; format\n3. The validity and authenticity of the content
+        of submissions is the sole\nresponsibility of the depositor.\n4. Items can
+        be deposited at any time, but will not be made publicly\nvisible until any
+        publishers' or funders' embargo period has expired.\n</text>\n        </submissionPolicy>\n
+        \       <comment>1. Items will be retained indefinitely.\n2. University of
+        Bath Opus will try to ensure continued readability and\naccessibility.\n3.
+        No file preservation policy defined.\n4. Items may not normally be removed
+        from University of Bath Opus.\n5. Acceptable reasons for withdrawal include:\n
+        \  (a) Journal publishers' rules\n   (b) Proven copyright violation or plagiarism\n
+        \  (c) Legal requirements and proven violations\n   (d) National Security\n
+        \  (e) Falsified research\n6. Withdrawn items are not deleted per se, but
+        are removed from public view.\n7. Withdrawn items' identifiers/URLs are retained
+        indefinitely.\n8. Errata and corrigenda lists may be included with the original
+        record if\nrequired.\n9. If necessary, an updated version may be deposited.\n
+        \  (a) The earlier version may be withdrawn from public view.\n   (b) There
+        will be links between earlier and later versions, with the\nmost recent version
+        clearly identified.\n10. In the event of University of Bath Opus being closed
+        down, the database\nwill be transferred to another appropriate archive.\n</comment>\n
+        \       <comment>This system is running eprints server software (EPrints 3.2.3
+        (Battenburg) [Born on 2010-07-01]) developed at the University of Southampton.
+        For more information see http://www.eprints.org/</comment>\n      </eprints>\n
+        \   </description>\n  </Identify>\n</OAI-PMH>"
+    http_version: !!null 
+  recorded_at: Mon, 25 Feb 2013 08:03:07 GMT
+recorded_with: VCR 2.4.0

@@ -7,6 +7,7 @@ gem 'ZenTest'
 gem 'autotest-fsevent'
 gem 'autotest-growl'
 gem 'factory_girl'
+gem 'vcr'
 
 gem 'sequel'
 gem 'sqlite3'

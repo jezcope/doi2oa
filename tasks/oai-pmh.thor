@@ -38,7 +38,7 @@ class Oai < Thor
     puts "Resumption token: #{response.resumption_token}"
   end
 
-  desc 'list_dois [ENDPOINT]', 'list DOIs and OA URLS'
+  desc 'list_dois [ENDPOINT]', 'list a batch of DOIs and OA URLs'
   option :resumption_token, aliases: %w(-r)
   def list_dois(endpoint='http://opus.bath.ac.uk/cgi/oai2')
     client = OAI::Client.new endpoint, parser: 'libxml'
@@ -48,6 +48,8 @@ class Oai < Thor
     end
     response = client.list_records(opts)
     
+    doi_count = 0
+
     for record in response
       relations = record.metadata.andand.find('.//dc:relation', 'dc:http://purl.org/dc/elements/1.1/')
       unless relations.nil?
@@ -63,10 +65,13 @@ class Oai < Thor
         if dois.length > 0
           puts dois.first
           others.each { |x| puts " => #{x}" }
+          doi_count += 1
         end
       end
     end
 
+    puts "------------------------------------------------------------------------------"
+    puts "Found #{doi_count} DOIs"
     puts "------------------------------------------------------------------------------"
     puts "Resumption token: #{response.resumption_token}"
   end

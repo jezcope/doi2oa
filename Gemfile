@@ -2,18 +2,26 @@ source 'https://rubygems.org'
 
 gem 'thor'
 
-gem 'rspec'
-gem 'ZenTest'
-gem 'autotest-fsevent'
-gem 'autotest-growl'
-gem 'factory_girl'
-gem 'vcr'
+gem 'sinatra'
+gem 'sinatra-contrib'
 
 gem 'sequel'
-gem 'sqlite3'
 
 gem 'oai'
 gem 'libxml-ruby'
 
 gem 'activesupport'
 gem 'andand'
+
+group :development do
+  gem 'sqlite3'
+end
+
+group :test do
+  gem 'rspec'
+  gem 'ZenTest'
+  gem 'autotest-fsevent'
+  gem 'autotest-growl'
+  gem 'factory_girl'
+  gem 'vcr'
+end

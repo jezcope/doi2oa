@@ -36,15 +36,16 @@ class Oai < Thor
 
     puts "------------------------------------------------------------------------------"
     puts "Resumption token: #{response.resumption_token}"
+
+    response.resumption_token
   end
 
-  desc 'list_dois [ENDPOINT]', 'list a batch of DOIs and OA URLs'
-  option :resumption_token, aliases: %w(-r)
-  def list_dois(endpoint='http://opus.bath.ac.uk/cgi/oai2')
+  desc 'list_dois [ENDPOINT] [TOKEN]', 'list a batch of DOIs and OA URLs'
+  def list_dois(endpoint='http://opus.bath.ac.uk/cgi/oai2', token=nil)
     client = OAI::Client.new endpoint, parser: 'libxml'
     opts = {}
-    if options.resumption_token
-      opts[:resumption_token] = options.resumption_token
+    if token
+      opts[:resumption_token] = token
     end
     response = client.list_records(opts)
     
@@ -70,10 +71,24 @@ class Oai < Thor
       end
     end
 
-    puts "------------------------------------------------------------------------------"
+    puts "-" * 78
     puts "Found #{doi_count} DOIs"
-    puts "------------------------------------------------------------------------------"
+    puts "-" * 78
     puts "Resumption token: #{response.resumption_token}"
+
+    [doi_count, response.resumption_token]
+  end
+
+  desc 'list_all_dois', 'list all DOIs and OA URLs'
+  def list_all_dois(endpoint='http://opus.bath.ac.uk/cgi/oai2')
+    count, token = list_dois(endpoint)
+    until token.nil?
+      puts "-" * 78
+      new_count, token = list_dois(endpoint, token)
+      count += new_count
+    end
+
+    puts "Found #{count} DOIs in total"
   end
 
 end

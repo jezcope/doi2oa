@@ -7,6 +7,10 @@ gem 'sinatra-contrib'
 
 gem 'sequel'
 
+gem 'redcarpet'
+gem 'haml'
+gem 'sass'
+
 gem 'oai'
 gem 'libxml-ruby'
 

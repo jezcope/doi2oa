@@ -27,8 +27,7 @@ describe Repository, :models => true do
   end
 
   it "should require base_url to be a valid URL" do
-    Repository.new(base_url: "Not a URL")
-      .should_not be_valid
+    build(:repository, base_url: "Not a URL").should_not be_valid
   end
 
   describe "OAI-PMH" do

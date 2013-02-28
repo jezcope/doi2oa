@@ -1,4 +1,5 @@
 require 'sequel'
+require 'andand'
 
 class Doi < Sequel::Model
   plugin :validation_helpers
@@ -9,6 +10,8 @@ class Doi < Sequel::Model
     super
 
     validates_presence [:repository, :doi]
+    validates_format    %r{^https?://([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$}, :url
+    validates_format    %r{^10\.[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)?/[0-9A-Za-z][0-9A-Za-z./-]+$}, :doi
   end
 
   def self.new_from_oai_record(repository, record)
@@ -30,4 +33,7 @@ class Doi < Sequel::Model
     end
   end
 
+  def self.resolve(doi)
+    find(doi: doi).andand.url
+  end
 end

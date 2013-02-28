@@ -12,8 +12,8 @@ FactoryGirl.define do
   end
 
   factory :doi do
-    doi         "10.1000/foobar"
-    url         "http://repo.example.com/document"
+    sequence(:doi) { |n| "10.1000/abcdefg.#{n}" }
+    sequence(:url) { |n| "http://repo.example.com/document#{n}.html" }
     repository
   end
 

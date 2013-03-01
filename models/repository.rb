@@ -2,7 +2,7 @@ require 'sequel'
 require 'andand'
 require 'oai'
 
-require 'models/doi'
+require_relative 'doi'
 
 class Repository < Sequel::Model
   plugin :validation_helpers

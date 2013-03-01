@@ -30,6 +30,7 @@ GEM
       builder (>= 2.0.0)
       faraday
       faraday_middleware
+    pg (0.14.1)
     rack (1.5.2)
     rack-protection (1.3.2)
       rack
@@ -77,6 +78,7 @@ DEPENDENCIES
   haml
   libxml-ruby
   oai
+  pg
   redcarpet
   rspec
   sass

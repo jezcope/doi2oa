@@ -1,6 +1,7 @@
 require 'sequel'
 require 'sequel/extensions/migration'
 
-DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://tmp/development.sqlite')
+env = ENV['ENVIRONMENT'] || 'development'
+DB = Sequel.connect(ENV['DATABASE_URL'] || "sqlite://tmp/#{env}.sqlite")
 Sequel::Migrator.apply(DB, 'db/migrations')
 Sequel::Model.db = DB

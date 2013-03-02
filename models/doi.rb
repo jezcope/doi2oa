@@ -11,7 +11,8 @@ class Doi < Sequel::Model
 
     validates_presence [:repository, :doi]
     validates_format    %r{^https?://([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$|^$}, :url
-    validates_format    %r{^10\.[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)?/[^/]}, :doi
+    validates_format    %r{^10\.[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)?/}, :doi,
+      message: "invalid DOI: '#{doi}'"
   end
 
   def doi=(value)
@@ -35,7 +36,8 @@ class Doi < Sequel::Model
         end
       end
       if dois.length > 0
-        doi_record = Doi.find_or_create(repository: repository, doi: dois.first)
+        doi_record = Doi.find(repository: repository, doi: dois.first)
+        doi_record ||= Doi.new(repository: repository, doi: dois.first)
         doi_record.url = others.first
         return doi_record
       end

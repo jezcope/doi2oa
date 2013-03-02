@@ -29,7 +29,7 @@ describe Doi, :models => true do
     build(:doi, doi: "not a valid doi").should_not be_valid
     build(:doi, doi: "23.1234/something").should_not be_valid
     build(:doi, doi: "23.1*234/something").should_not be_valid
-    build(:doi, doi: "10.3231//something").should_not be_valid
+    build(:doi, doi: "10.3231//something").should be_valid
   end
 
   it "should clean up some common DOI errors" do

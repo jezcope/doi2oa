@@ -32,6 +32,16 @@ describe Doi, :models => true do
     build(:doi, doi: "10.3231//something").should_not be_valid
   end
 
+  it "should clean up some common DOI errors" do
+    doi = build(:doi, doi: ' 10.1001/with-a-space-in-front')
+    doi.should be_valid
+    doi.doi.should == '10.1001/with-a-space-in-front'
+
+    doi = build(:doi, doi: '10.1001/with-spaces-behind  ')
+    doi.should be_valid
+    doi.doi.should == '10.1001/with-spaces-behind'
+  end
+
   it "should require URL to be in the right format" do
     build(:doi, url: "not a valid url").should_not be_valid
   end

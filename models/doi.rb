@@ -10,8 +10,16 @@ class Doi < Sequel::Model
     super
 
     validates_presence [:repository, :doi]
-    validates_format    %r{^https?://([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$}, :url
-    validates_format    %r{^10\.[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)?/}, :doi
+    validates_format    %r{^https?://([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$|^$}, :url
+    validates_format    %r{^10\.[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)?/[^/]}, :doi
+  end
+
+  def doi=(value)
+    if value.respond_to? :strip
+      super(value.strip)
+    else
+      super(value)
+    end
   end
 
   def self.create_or_update_from_oai(repository, record)

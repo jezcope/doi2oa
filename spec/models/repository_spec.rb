@@ -49,7 +49,8 @@ describe Repository, :models => true do
 
     describe "list records",
       vcr: { cassette_name: "repository/list_records",
-        record: :new_episodes } do
+        record: :new_episodes,
+        allow_playback_repeats: true} do
 
       before(:all) do
         @repository = Repository.find_or_create(base_url: "http://opus.bath.ac.uk/cgi/oai2")

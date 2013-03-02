@@ -41,11 +41,11 @@ module Harvest
         until token.nil?
           count += dois.length
           dois.each do |doi|
-            if doi.valid?
+            begin
               doi.save
-              say_status "doi", "#{doi.doi} => #{doi.url}", :yellow
-            else
-              say_status "invalid", "#{doi.doi} => #{doi.url}", :red
+              say_status "doi", "'#{doi.doi}' => '#{doi.url}'", :yellow
+            rescue
+              say_status "invalid", "'#{doi.doi}' => '#{doi.url}'", :red
             end
           end
 
@@ -54,6 +54,18 @@ module Harvest
           dois, token = r.list_records(token)
         end
       end
+    end
+
+    desc 'count', 'print number of DOI records in database'
+    def count
+      say_status "count", "#{Doi.count} DOI records"
+    end
+
+    desc 'clear', 'clear DOI records from database'
+    def clear
+      say_status "delete", "#{Doi.count} DOI records", :yellow
+      Doi.delete
+      invoke :count
     end
 
   end

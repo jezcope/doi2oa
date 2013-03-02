@@ -37,12 +37,19 @@ describe Doi, :models => true do
   end
 
   it "should construct from an OAI-PMH record" do
-    doi = Doi.new_from_oai_record(@repository, @record)
+    doi = Doi.create_or_update_from_oai(@repository, @record)
 
     doi.repository.should == @repository
     doi.doi.should == "10.1016/j.laa.2007.11.013"
     doi.url.should == "http://opus.bath.ac.uk/167/"
     doi.should be_valid
+  end
+
+  it "should update instead of duplicating" do
+    doi1 = Doi.create_or_update_from_oai(@repository, @record)
+    doi2 = Doi.create_or_update_from_oai(@repository, @record)
+
+    doi1.id.should == doi2.id
   end
 
   it "should resolve DOIs to URLs" do

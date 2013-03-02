@@ -14,7 +14,7 @@ class Doi < Sequel::Model
     validates_format    %r{^10\.[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)?/}, :doi
   end
 
-  def self.new_from_oai_record(repository, record)
+  def self.create_or_update_from_oai(repository, record)
     relations = record.metadata.andand.find('.//dc:relation', 'dc:http://purl.org/dc/elements/1.1/')
     unless relations.nil?
       dois = []
@@ -27,8 +27,9 @@ class Doi < Sequel::Model
         end
       end
       if dois.length > 0
-        return Doi.new(repository: repository,
-                       doi: dois.first, url: others.first)
+        doi_record = Doi.find_or_create(repository: repository, doi: dois.first)
+        doi_record.url = others.first
+        return doi_record
       end
     end
   end

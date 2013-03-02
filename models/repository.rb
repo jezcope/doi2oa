@@ -37,7 +37,7 @@ class Repository < Sequel::Model
 
     dois = []
     response.each do |record| 
-      doi_mapping = Doi.new_from_oai_record self, record
+      doi_mapping = Doi.create_or_update_from_oai self, record
       dois << doi_mapping unless doi_mapping.nil?
     end
 

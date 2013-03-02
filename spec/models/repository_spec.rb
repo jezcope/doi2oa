@@ -73,6 +73,16 @@ describe Repository, :models => true do
         end
       end
 
+      it "should update instead of duplicating DOI records" do
+        records, resumption_token = @repository.list_records
+        records.each {|r| r.save}
+        count_before = Doi.count
+
+        records, resumption_token = @repository.list_records
+        records.each {|r| r.save}
+        Doi.count.should == count_before
+      end
+
     end
 
   end

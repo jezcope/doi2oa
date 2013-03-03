@@ -28,16 +28,13 @@ class Repository < Sequel::Model
 
   def list_records(resumption_token = nil)
     client = OAI::Client.new base_url, parser: 'libxml'
-    opts = if resumption_token.nil?
-             {}
-           else
-             {resumption_token: resumption_token}
-           end
+    opts = {}
+    opts[:resumption_token] = resumption_token unless resumption_token.nil?
     response = client.list_records(opts)
 
     dois = []
     response.each do |record| 
-      doi_mapping = Doi.create_or_update_from_oai self, record
+      doi_mapping = Doi.new_or_update_from_oai self, record
       dois << doi_mapping unless doi_mapping.nil?
     end
 

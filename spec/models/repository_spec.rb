@@ -4,35 +4,39 @@ require 'models/repository'
 
 describe Repository, :models => true do
 
-  it "should be valid with valid parameters" do
-    build(:repository).should be_valid
-  end
+  describe "construction" do
 
-  it "should require a base URL" do
-    Repository.new.should_not be_valid
-  end
+    it "should be valid with valid parameters" do
+      build(:repository).should be_valid
+    end
 
-  it "should not require any other parameters" do
-    r = Repository.new(base_url: "http://repo.example.com/oai2")
-    r.should be_valid
-    r.name.should be_nil
-    r.admin_email.should be_nil
-    r.earliest_datestamp.should be_nil
-  end
+    it "should require a base URL" do
+      Repository.new.should_not be_valid
+    end
 
-  it "should not allow duplicate URLs" do
-    Repository.find_or_create(base_url: "http://repo2.example.com/oai2")
-    Repository.new(base_url: "http://repo2.example.com/oai2")
-      .should_not be_valid
-  end
+    it "should not require any other parameters" do
+      r = Repository.new(base_url: "http://repo.example.com/oai2")
+      r.should be_valid
+      r.name.should be_nil
+      r.admin_email.should be_nil
+      r.earliest_datestamp.should be_nil
+    end
 
-  it "should require base_url to be a valid URL" do
-    build(:repository, base_url: "Not a URL").should_not be_valid
+    it "should not allow duplicate URLs" do
+      Repository.find_or_create(base_url: "http://repo2.example.com/oai2")
+      Repository.new(base_url: "http://repo2.example.com/oai2")
+        .should_not be_valid
+    end
+
+    it "should require base_url to be a valid URL" do
+      build(:repository, base_url: "Not a URL").should_not be_valid
+    end
+
   end
 
   describe "OAI-PMH" do
 
-    describe "identify",
+    describe "#identify!",
       vcr: { cassette_name: "repository/identify", 
         record: :new_episodes } do
 
@@ -47,7 +51,7 @@ describe Repository, :models => true do
 
     end
 
-    describe "list records",
+    describe "#list_records",
       vcr: { cassette_name: "repository/list_records",
         record: :new_episodes,
         allow_playback_repeats: true} do

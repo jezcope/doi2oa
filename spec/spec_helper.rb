@@ -1,6 +1,7 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..'))
 
 require 'sinatra'
+require 'rack/test'
 require 'rspec'
 require 'factory_girl'
 require 'vcr'
@@ -28,4 +29,5 @@ end
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
+  config.include Rack::Test::Methods
 end

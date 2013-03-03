@@ -26,23 +26,31 @@ class Doi2Oa < Sinatra::Base
 
     set :haml,      layout: :layout
     set :markdown,  layout: :layout, layout_engine: :haml
+    set :root,      File.dirname(__FILE__)
   end
 
   get '/' do
     markdown :index
   end
 
-  get '/resolve' do
-    return Doi.resolve(params["doi"]) || "unavailable" if params.has_key?("doi")
-    redirect to('/')
+  get %r{/resolve/?(?<doi_capture>.+)?} do
+    unless doi = params[:doi] || params[:doi_capture]
+      error 400
+    end
+    if dest = Doi.resolve(doi)
+      return dest
+    end
+    error 404
   end
 
-  get '/redirect' do
-    loc = url('/')
-    if params.has_key?("doi")
-      loc = Doi.resolve(params["doi"]) || loc
+  get %r{/redirect/?(?<doi_capture>.+)?} do
+    unless doi = params[:doi] || params[:doi_capture]
+      error 400
     end
-    redirect loc
+    if dest = Doi.resolve(doi)
+      redirect dest
+    end
+    error 404
   end
 
   run! if app_file == $0

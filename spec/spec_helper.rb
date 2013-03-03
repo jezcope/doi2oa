@@ -1,13 +1,22 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..'))
 
-ENV['ENVIRONMENT'] = 'test'
-
+require 'sinatra'
 require 'rspec'
 require 'factory_girl'
 require 'vcr'
 
-require 'db/init'
-DB.tables.each {|t| DB[t].truncate unless t == :schema_info }
+class Doi2Oa < Sinatra::Base
+
+  configure do
+    set :environment, :test
+    disable :run
+    enable :raise_errors
+    disable :logging
+  end
+
+end
+
+require 'app'
 
 FactoryGirl.find_definitions
 

@@ -40,6 +40,10 @@ class Doi2Oa < Sinatra::Base
     markdown :index
   end
 
+  get '/about' do
+    markdown :about
+  end
+
   get '/application.css' do
     content_type 'text/css', charset: 'utf-8'
     scss :application, Compass.sass_engine_options

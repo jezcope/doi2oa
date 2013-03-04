@@ -7,7 +7,7 @@ gem 'sinatra-contrib'
 
 gem 'sequel'
 
-gem 'redcarpet'
+gem 'maruku'
 gem 'haml'
 gem 'sass'
 

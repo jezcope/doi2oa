@@ -3,11 +3,10 @@ require 'sequel'
 require 'sequel/extensions/migration'
 
 require 'haml'
-require 'redcarpet'
+require 'maruku'
 
 class Doi2Oa < Sinatra::Base
 
-  puts 'before configure blocks'
   configure :development, :production do
     DB = Sequel.connect(ENV['DATABASE_URL'] \
                         || "sqlite://tmp/#{settings.environment}.sqlite")

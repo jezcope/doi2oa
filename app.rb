@@ -4,8 +4,18 @@ require 'sequel/extensions/migration'
 
 require 'haml'
 require 'maruku'
+require 'compass'
+require 'bootstrap-sass'
 
 class Doi2Oa < Sinatra::Base
+
+  configure do
+    set :root,      File.dirname(__FILE__)
+
+    set :haml,      format: :html5, layout: :layout
+    set :scss,      style: :compact, debug_info: false
+    set :markdown,  layout: :layout, layout_engine: :haml
+  end
 
   configure :development, :production do
     DB = Sequel.connect(ENV['DATABASE_URL'] \
@@ -23,13 +33,20 @@ class Doi2Oa < Sinatra::Base
     require_relative 'models/doi'
     require_relative 'models/repository'
 
-    set :haml,      layout: :layout
-    set :markdown,  layout: :layout, layout_engine: :haml
-    set :root,      File.dirname(__FILE__)
+    Compass.add_project_configuration(File.join(root, 'config', 'compass.rb'))
   end
 
   get '/' do
     markdown :index
+  end
+
+  get '/about' do
+    markdown :about
+  end
+
+  get '/application.css' do
+    content_type 'text/css', charset: 'utf-8'
+    scss :application, Compass.sass_engine_options
   end
 
   get %r{/resolve/?(?<doi_capture>.+)?} do

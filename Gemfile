@@ -9,7 +9,8 @@ gem 'sequel'
 
 gem 'maruku'
 gem 'haml'
-gem 'sass'
+gem 'compass'
+gem 'bootstrap-sass'
 
 gem 'oai'
 gem 'libxml-ruby'

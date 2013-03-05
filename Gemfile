@@ -19,7 +19,7 @@ gem 'activesupport'
 gem 'andand'
 
 group :production do
-  gem 'pg'
+  gem 'mysql'
 end
 
 group :development do

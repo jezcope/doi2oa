@@ -44,6 +44,10 @@ class Doi2Oa < Sinatra::Base
       request.path_info == link_path ? {class: 'active'} : {}
     end
 
+    def ga_id
+      ENV['GA_ID'] || ''
+    end
+
   end
 
   get '/' do

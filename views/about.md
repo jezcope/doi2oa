@@ -9,7 +9,7 @@ It can only resolve DOIs for which metadata has been harvested from an open acce
 This is currently a proof-of-concept, based on a very short conversation about things it would be useful to be able to do with DOIs. It's not very full featured. In particular:
 
 1.  There are no scheduled jobs to harvest up-to-data metadata from repositories. It gets updated when and only when I give it a kick.
-2.  It only harvests metadata from a defined set of repositories. That set only expands when I manually add a repository.
+2.  It only harvests metadata from [these repositories](/repositories). That set only expands when I manually add a repository.
 3.  It doesn't store *any* metadata for each DOI other than an associated URL. There are other ways to [get metadata for a DOI][cn].
 3.  It's currently running on a starter-tier PostgreSQL database at [Heroku](http://heroku.com), which means only space for 10,000 rows in the database.[^1]
 

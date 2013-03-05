@@ -5,6 +5,7 @@ Welcome to the open access [Digital Object Identifier (DOI)][DOI] resolver: you 
 
 -   [Read more about it](/about)
 -   [Get the code on github][code]
+-   [See the list of repositories covered](/repositories)
 
 ## Try it out
 

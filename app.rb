@@ -36,6 +36,16 @@ class Doi2Oa < Sinatra::Base
     Compass.add_project_configuration(File.join(root, 'config', 'compass.rb'))
   end
 
+  helpers do
+
+    alias_method :h, :escape_html
+
+    def menu_class(link_path)
+      request.path_info == link_path ? {class: 'active'} : {}
+    end
+
+  end
+
   get '/' do
     markdown :index
   end
@@ -47,6 +57,11 @@ class Doi2Oa < Sinatra::Base
   get '/application.css' do
     content_type 'text/css', charset: 'utf-8'
     scss :application, Compass.sass_engine_options
+  end
+
+  get '/repositories' do
+    @repositories = Repository.all
+    haml :repositories
   end
 
   get %r{/resolve/?(?<doi_capture>.+)?} do

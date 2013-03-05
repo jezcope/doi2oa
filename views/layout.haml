@@ -18,10 +18,12 @@
           %a.brand{href: '/'} Open Access DOI resolver
           .nav-collapse.collapse
             %ul.nav
-              %li
+              %li{menu_class('/')}
                 %a{href: '/'} Home
-              %li
+              %li{menu_class('/about')}
                 %a{href: '/about'} About
+              %li{menu_class('/repositories')}
+                %a{href: '/repositories'} Repositories
 
     .container= yield
 

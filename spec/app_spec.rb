@@ -20,6 +20,27 @@ describe Doi2Oa do
 
   end
 
+  describe "/repositories" do
+
+    before do
+      @repos = (1..5).map {create(:repository)}
+      get '/repositories'
+    end
+
+    it "should respond to GET" do
+      last_response.should be_ok
+    end
+
+    it "should list information about each repository" do
+      @repos.each do |r|
+        last_response.body.should include(r.name)
+        last_response.body.should include(escape_html r.base_url)
+        last_response.body.should include(r.admin_email)
+      end
+    end
+
+  end
+      
   describe "/resolve" do
 
     before do

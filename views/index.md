@@ -9,12 +9,14 @@ Welcome to the open access [Digital Object Identifier (DOI)][DOI] resolver: you 
 
 ## Try it out
 
-<form action="/resolve" method="get" class="form-inline">
+<form action="/redirect" method="get" class="form-inline">
 <fieldset>
-<input type="text" placeholder="DOI e.g. 10.1000/abcdefg.1" name="doi" />
-<button type="submit" class="btn btn-primary">Resolve</button>
+<input type="text" placeholder="DOI e.g. 10.1111/j.1476-5381.2012.02129.x" name="doi" />
+<button type="submit" class="btn btn-primary">Find it</button>
 </fieldset>
 </form>
+
+This will only work for DOIs that have been harvested. For example, try `10.1111/j.1476-5381.2012.02129.x`.
 
 ## How to use it
 

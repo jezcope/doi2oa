@@ -20,6 +20,7 @@ gem 'andand'
 
 group :production do
   gem 'mysql'
+  gem 'pg'
 end
 
 group :development do

@@ -6,6 +6,7 @@ Welcome to the open access [Digital Object Identifier (DOI)][DOI] resolver: you 
 -   [Read more about it](/about)
 -   [Get the code on github][code]
 -   [See the list of repositories covered](/repositories)
+-   [Have an opinion? Comment on the blog post](http://erambler.co.uk/blog/from-doi-to-open-access/index.html)
 
 ## Try it out
 
@@ -16,7 +17,7 @@ Welcome to the open access [Digital Object Identifier (DOI)][DOI] resolver: you 
 </fieldset>
 </form>
 
-This will only work for DOIs that have been harvested. For example, try `10.1111/j.1476-5381.2012.02129.x`.
+This will only work for DOIs that have been harvested. For example, try `10.1007/s00148-012-0424-x`.
 
 ## How to use it
 
@@ -31,6 +32,14 @@ A HTTP GET request to `/resolve/<DOI here>` should return:
 A request to `/redirect/<DOI here>` will redirect you straight there instead (just like `dx.doi.org`).
 
 Both will also accept the DOI as a parameter, so `/resolve?doi=<URL-encoded DOI here>` will behave the same as `/resolve/<DOI here>`.
+
+## About me
+
+My name is Jez Cope and I work in higher education, helping researchers collaborate and communicate with technology.
+
+-   [Read my blog](http://erambler.co.uk)
+-   [Find me on Twitter](http://twitter.com/jezcope)
+-   [Find me on Google+](http://gplus.to/jezcope)
 
 
 [DOI]: http://en.wikipedia.org/wiki/Digital_object_identifier

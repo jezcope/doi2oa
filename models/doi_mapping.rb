@@ -5,6 +5,11 @@ class DoiMapping < Sequel::Model
   plugin :validation_helpers
 
   many_to_one :repository
+  
+  NAMESPACES = %w{
+    dc:http://purl.org/dc/elements/1.1/
+    oai:http://www.openarchives.org/OAI/2.0/
+  }
 
   def validate
     super
@@ -26,24 +31,51 @@ class DoiMapping < Sequel::Model
   end
 
   def self.new_or_update_from_oai(repository, record)
-    # Both the DOI and the OA URL are reported as relations in the DC schema
-    relations = record.metadata.andand.find('.//dc:relation', 'dc:http://purl.org/dc/elements/1.1/')
-    
-    return if relations.nil?
+    metadata = record.metadata
+    return if metadata.nil?
 
-    relations = relations.map {|rel| rel.inner_xml}
-    dois, others = relations.partition do |rel|
-      rel.start_with? 'http://dx.doi.org/'
+    doi_candidates, url_candidates = [], []
+
+    # Try <dc:identifier> elements
+    identifiers = metadata.find('.//dc:identifier', NAMESPACES)
+    unless identifiers.nil?
+      identifiers.each do |id|
+        extract_doi_or_url id.inner_xml, doi_candidates, url_candidates
+      end
     end
 
-    if dois.length > 0
-      doi_record = find_or_new(repository: repository, doi: dois.first[18..-1])
-      doi_record.url = others.first
-      return doi_record
+    # Try <dc:relation> elements
+    relations = metadata.find('.//dc:relation', NAMESPACES)
+    unless relations.nil?
+      relations.each do |rel|
+        extract_doi_or_url rel.inner_xml, doi_candidates, url_candidates
+      end
+    end
+
+    url_candidates.sort! {|url| url.length}
+
+    if doi_candidates.length > 0
+      mapping = find_or_new(repository: repository, doi: doi_candidates.first)
+      mapping.url = url_candidates.first
+      return mapping
     end
   end
 
   def self.resolve(doi)
     find(doi: doi).andand.url
   end
+
+  private
+
+  def self.extract_doi_or_url(content, dois, urls)
+    content = content.strip
+    if content.start_with? 'http://dx.doi.org/'
+      dois << content[18..-1]
+    elsif content.start_with? '10.'
+      dois << content
+    elsif content =~ %r{^https?://}
+      urls << content
+    end
+  end
+
 end

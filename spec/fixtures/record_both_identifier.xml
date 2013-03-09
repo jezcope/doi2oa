@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<record xmlns="http://www.openarchives.org/OAI/2.0/"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <header>
     <identifier>oai:journals.unibo.it:article/1265</identifier>
     <datestamp>2008-07-08T13:35:59Z</datestamp>

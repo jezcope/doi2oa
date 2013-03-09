@@ -11,7 +11,8 @@ This is currently a proof-of-concept, based on a very short conversation about t
 1.  There are no scheduled jobs to harvest up-to-data metadata from repositories. It gets updated when and only when I give it a kick.
 2.  It only harvests metadata from [these repositories](/repositories). That set only expands when I manually add a repository.
 3.  It doesn't store *any* metadata for each DOI other than an associated URL. There are other ways to [get metadata for a DOI][cn].
-3.  It's currently running on a starter-tier PostgreSQL database at [Heroku](http://heroku.com), which means only space for 10,000 rows in the database.[^1]
+4.  It's currently running on a starter-tier PostgreSQL database at [Heroku](http://heroku.com), which means only space for 10,000 rows in the database.[^1]
+5.  I haven't yet worked out how to check whether there is actually full text available, so that aspect might be a bit hit and miss.
 
 It's a project I've put together in my spare time too, so I'm using it as an opportunity to learn some bits and bobs. Feel free to [critique, contribute or report feature requests and bugs over at github][code].
 

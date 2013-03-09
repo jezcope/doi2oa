@@ -1,7 +1,7 @@
 # Open Access DOI resolver
 
 
-Welcome to the open access [Digital Object Identifier (DOI)][DOI] resolver: you give it a DOI and it gives you back the URL for an open access version of the article it refers to.
+Welcome to the open access [Digital Object Identifier (DOI)][DOI] resolver: you give it a DOI and it gives you back an institutional repository URL for the article it refers to (hopefully with open access full text).
 
 -   [Read more about it](/about)
 -   [Get the code on github][code]

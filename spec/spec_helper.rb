@@ -6,6 +6,7 @@ require 'rack/utils'
 require 'rspec'
 require 'factory_girl'
 require 'vcr'
+require 'database_cleaner'
 
 class Doi2Oa < Sinatra::Base
 
@@ -34,4 +35,19 @@ RSpec.configure do |config|
   config.include Rack::Utils
 
   config.alias_it_should_behave_like_to :it_has_behaviour, 'has behaviour:'
+
+  before(:suite) do
+    DatabaseCleaner[:sequel].strategy = :transaction
+    DatabaseCleaner[:sequel].clean_with :truncation, {except: %w{schema_info}}
+  end
+
+  before(:each) do
+    DatabaseCleaner[:sequel].start
+  end
+
+  after(:each) do
+    DatabaseCleaner[:sequel].clean
+  end
+
 end
+

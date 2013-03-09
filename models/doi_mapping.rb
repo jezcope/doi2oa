@@ -1,7 +1,7 @@
 require 'sequel'
 require 'andand'
 
-class Doi < Sequel::Model
+class DoiMapping < Sequel::Model
   plugin :validation_helpers
 
   many_to_one :repository
@@ -22,7 +22,7 @@ class Doi < Sequel::Model
   end
   
   def self.find_or_new(*args)
-    self.find(*args) || self.new(*args)
+    find(*args) || new(*args)
   end
 
   def self.new_or_update_from_oai(repository, record)
@@ -37,7 +37,7 @@ class Doi < Sequel::Model
     end
 
     if dois.length > 0
-      doi_record = Doi.find_or_new(repository: repository, doi: dois.first[18..-1])
+      doi_record = find_or_new(repository: repository, doi: dois.first[18..-1])
       doi_record.url = others.first
       return doi_record
     end

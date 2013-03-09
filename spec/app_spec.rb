@@ -44,7 +44,7 @@ describe Doi2Oa do
   describe "/resolve" do
 
     before do
-      @dois = (1..5).map {create(:doi)}
+      @mappings = (1..5).map {create(:doi_mapping)}
     end
 
     describe "without parameters" do
@@ -59,7 +59,7 @@ describe Doi2Oa do
     describe "with parameters" do
         
       it "should return the correct URL" do
-        @dois.each do |record|
+        @mappings.each do |record|
           get "/resolve?doi=#{CGI::escape(record.doi)}"
           last_response.body.should == record.url
         end
@@ -75,7 +75,7 @@ describe Doi2Oa do
     describe "with pathinfo" do
     
       it "should return the correct URL" do
-        @dois.each do |record|
+        @mappings.each do |record|
           get "/resolve/#{record.doi}"
           last_response.body.should == record.url
         end
@@ -93,7 +93,7 @@ describe Doi2Oa do
   describe "/redirect" do
 
     before do
-      @dois = (1..5).map {create(:doi)}
+      @mappings = (1..5).map {create(:doi_mapping)}
     end
 
     describe "without parameters" do
@@ -108,7 +108,7 @@ describe Doi2Oa do
     describe "with parameters" do
         
       it "should redirect to the correct URL" do
-        @dois.each do |record|
+        @mappings.each do |record|
           get "/redirect?doi=#{CGI::escape(record.doi)}"
           last_response.should be_redirect
           last_response.location.should == record.url
@@ -125,7 +125,7 @@ describe Doi2Oa do
     describe "with pathinfo" do
     
       it "should redirect to the correct URL" do
-        @dois.each do |record|
+        @mappings.each do |record|
           get "/redirect/#{record.doi}"
           last_response.should be_redirect
           last_response.location.should == record.url

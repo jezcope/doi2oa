@@ -30,7 +30,7 @@ class Doi2Oa < Sinatra::Base
     Sequel::Migrator.apply(DB, 'db/migrations')
     Sequel::Model.db = DB
 
-    require_relative 'models/doi'
+    require_relative 'models/doi_mapping'
     require_relative 'models/repository'
 
     Compass.add_project_configuration(File.join(root, 'config', 'compass.rb'))
@@ -72,7 +72,7 @@ class Doi2Oa < Sinatra::Base
     unless doi = params[:doi] || params[:doi_capture]
       error 400
     end
-    if dest = Doi.resolve(doi)
+    if dest = DoiMapping.resolve(doi)
       return dest
     end
     error 404
@@ -82,7 +82,7 @@ class Doi2Oa < Sinatra::Base
     unless doi = params[:doi] || params[:doi_capture]
       error 400
     end
-    if dest = Doi.resolve(doi)
+    if dest = DoiMapping.resolve(doi)
       redirect dest
     end
     error 404

@@ -2,12 +2,12 @@ require 'sequel'
 require 'andand'
 require 'oai'
 
-require_relative 'doi'
+require_relative 'doi_mapping'
 
 class Repository < Sequel::Model
   plugin :validation_helpers
 
-  one_to_many :dois
+  one_to_many :doi_mappings
   
   def validate
     super
@@ -34,7 +34,7 @@ class Repository < Sequel::Model
 
     dois = []
     response.each do |record| 
-      doi_mapping = Doi.new_or_update_from_oai self, record
+      doi_mapping = DoiMapping.new_or_update_from_oai self, record
       dois << doi_mapping unless doi_mapping.nil?
     end
 

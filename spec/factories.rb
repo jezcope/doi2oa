@@ -11,7 +11,7 @@ FactoryGirl.define do
     earliest_datestamp 5.years.ago
   end
 
-  factory :doi do
+  factory :doi_mapping do
     sequence(:doi) { |n| "10.1000/abcdefg.#{n}" }
     sequence(:url) { |n| "http://repo.example.com/document#{n}.html" }
     repository

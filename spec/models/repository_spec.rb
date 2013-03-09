@@ -63,8 +63,8 @@ describe Repository, :models => true do
       it "should fetch records from the server" do
         records, resumption_token = @repository.list_records
         records.length.should == 13
-        records.each do |doi|
-          doi.repository.should == @repository
+        records.each do |doi_mapping|
+          doi_mapping.repository.should == @repository
         end
       end
 
@@ -73,19 +73,19 @@ describe Repository, :models => true do
         records, resumption_token = @repository.list_records resumption_token
 
         records.length.should == 16
-        records.each do |doi|
-          doi.repository.should == @repository
+        records.each do |doi_mapping|
+          doi_mapping.repository.should == @repository
         end
       end
 
       it "should update instead of duplicating DOI records" do
         records, resumption_token = @repository.list_records
         records.each {|r| r.save}
-        count_before = Doi.count
+        count_before = DoiMapping.count
 
         records, resumption_token = @repository.list_records
         records.each {|r| r.save}
-        Doi.count.should == count_before
+        DoiMapping.count.should == count_before
       end
 
     end

@@ -8,8 +8,10 @@ require 'models/repository'
 describe Doi, :models => true do
 
   before(:all) do
-    @record = OAI::Record.new(
-      XML::Document.file('spec/fixtures/record.xml').root)
+    @record_both_relation = OAI::Record.new(
+      XML::Document.file('spec/fixtures/record_both_relation.xml').root)
+    @record_both_identifier = OAI::Record.new(
+      XML::Document.file('spec/fixtures/record_both_identifier.xml').root)
     @repository = create(:repository)
   end
 
@@ -54,18 +56,39 @@ describe Doi, :models => true do
 
   describe "#new_or_update_from_oai" do
 
-    it "should construct from an OAI-PMH record" do
-      doi = Doi.new_or_update_from_oai(@repository, @record)
+    shared_examples_for "construct from OAI::Record" do
+      before(:each) do
+        @mapping = Doi.new_or_update_from_oai(@repository, record)
+      end
 
-      doi.repository.should == @repository
-      doi.doi.should == "10.1016/j.laa.2007.11.013"
-      doi.url.should == "http://opus.bath.ac.uk/167/"
-      doi.should be_valid
+      it "should construct a valid mapping" do
+        @mapping.class.should == Doi
+        @mapping.repository.should == @repository
+        @mapping.doi.should == doi
+        @mapping.url.should == url
+        @mapping.should be_valid
+      end
+    end
+
+    describe "when DOI and URL are dc:relation" do
+      it_has_behaviour "construct from OAI::Record" do
+        let(:record)  {@record_both_relation}
+        let(:doi)     {"10.1016/j.laa.2007.11.013"}
+        let(:url)     {"http://opus.bath.ac.uk/167/"}
+      end
+    end
+
+    describe "when DOI and URL are dc:identifier" do
+      it_has_behaviour "construct from OAI::Record" do
+        let(:record)  {@record_both_identifier}
+        let(:doi)     {"10.6092/issn.1973-9494/1265"}
+        let(:url)     {"http://conservation-science.unibo.it/article/view/1265"}
+      end
     end
 
     it "should update instead of duplicating" do
-      doi1 = Doi.new_or_update_from_oai(@repository, @record)
-      doi2 = Doi.new_or_update_from_oai(@repository, @record)
+      doi1 = Doi.new_or_update_from_oai(@repository, @record_both_relation)
+      doi2 = Doi.new_or_update_from_oai(@repository, @record_both_relation)
 
       doi1.id.should == doi2.id
     end

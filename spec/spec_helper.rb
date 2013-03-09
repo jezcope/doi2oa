@@ -32,4 +32,6 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Rack::Test::Methods
   config.include Rack::Utils
+
+  config.alias_it_should_behave_like_to :it_has_behaviour, 'has behaviour:'
 end

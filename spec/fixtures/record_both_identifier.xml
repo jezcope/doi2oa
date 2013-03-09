@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<record xmlns="http://www.openarchives.org/OAI/2.0/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <header>
+    <identifier>oai:journals.unibo.it:article/1265</identifier>
+    <datestamp>2008-07-08T13:35:59Z</datestamp>
+    <setSpec>conservation-science:ART</setSpec>
+  </header>
+  <metadata>
+    <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+
+      <dc:title xml:lang="en-US">Archives, libraries and museums: containers
+      often sick, sometimes seriously sick</dc:title>
+      <dc:creator>Nicolucci, Roberto</dc:creator>
+      <dc:description xml:lang="en-US">As far as the feeling of quietness and
+      peace that they often convey, archives, museums and libraries also hide
+      dangers that you may not imagine, either for visitors or especially for
+      the members of the staff. Indeed the poor microclimatic conditions –
+      often the consequences of materials and construction or building
+      technologies that appear definitely obsolete – often arouse suspicion
+      and worry among the staff. Wrong Thermo hygrometric parameters, the
+      presence of volatile organic elements, mineral fibers, biocides, radon
+      gas, aerial dispersive molecules, are among others some of the chemical
+      physical polluters of major influence that may contribute to giving life
+      to the so-called Sick Building Syndrome. But such spaces also bear
+      biological polluters that can provoke pathologies of various types and
+      importance, among which the feared Illness of Legionnaire. The presence
+      of electromagnetic fields, but above all wrong lighting and wrong
+      ergonomic working positions represent some risk factors for members of
+      staff and visitors.</dc:description>
+      <dc:publisher xml:lang="en-US">Dipartimento dei Beni Culturali, Alma
+      Mater Studiorum, Università di Bologna (Ravenna)</dc:publisher>
+      <dc:date>2007-07-08</dc:date>
+      <dc:type xml:lang="en-US">Peer-reviewed Article</dc:type>
+      <dc:type xml:lang="it-IT"></dc:type>
+      <dc:format>application/pdf</dc:format>
+      <dc:identifier>
+      http://conservation-science.unibo.it/article/view/1265</dc:identifier>
+      <dc:identifier xsi:type="dcterms:DOI">
+      10.6092/issn.1973-9494/1265</dc:identifier>
+      <dc:source xml:lang="en-US">Conservation Science in Cultural Heritage;
+      Vol 7 (2007)</dc:source>
+      <dc:source xml:lang="it-IT">Conservation Science in Cultural Heritage;
+      Vol 7 (2007)</dc:source>
+      <dc:language>en</dc:language>
+      <dc:rights xml:lang="en-US">This journal is licensed under a Creative
+      Commons Attribution 3.0 Unported License.</dc:rights>
+      <dc:rights xml:lang="it-IT">La rivista è distribuita sotto una Creative
+      Commons Attribution 3.0 Unported License.</dc:rights>
+    </oai_dc:dc>
+  </metadata>
+</record>

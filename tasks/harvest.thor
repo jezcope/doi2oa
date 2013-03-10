@@ -4,7 +4,7 @@ require 'pp'
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..'))
 require 'db/init'
 require 'models/repository'
-require 'models/doi'
+require 'models/doi_mapping'
 
 module Harvest
 
@@ -29,42 +29,49 @@ module Harvest
       end
     end
 
+    desc 'rm BASE_URL', 'remove a repository'
+    def rm(base_url)
+      repository = Repository.find(base_url: base_url)
+      repository.doi_mappings.each {|m| m.destroy}
+      repository.destroy
+    end
+
   end
 
   class Dois < Thor
 
     desc 'harvest', 'harvest DOIs'
+    option :limit, type: :numeric
     def harvest
       Repository.all.each do |r|
         count = 0
-        dois, token = r.list_records
-        until token.nil?
-          count += dois.length
-          dois.each do |doi|
-            begin
-              doi.save
-              say_status "doi", "'#{doi.doi}' => '#{doi.url}'", :yellow
-            rescue
-              say_status "invalid", "'#{doi.doi}' => '#{doi.url}'", :red
-            end
-          end
-
-          say_status "found", "#{count} DOIs so far", :green
-
-          dois, token = r.list_records(token)
+        list_opts = {}
+        if options[:limit]
+          list_opts[:limit] = options[:limit].to_i
         end
+        mappings = r.list_records(options)
+        mappings.each do |mapping|
+          begin
+            mapping.save
+            say_status "doi", "'#{mapping.doi}' => '#{mapping.url}'", :yellow
+          rescue Exception => e
+            pp e
+            say_status "invalid", "'#{mapping.doi}' => '#{mapping.url}'", :red
+          end
+        end
+        say_status "found", "#{mappings.length} DOIs", :green
       end
     end
 
     desc 'count', 'print number of DOI records in database'
     def count
-      say_status "count", "#{Doi.count} DOI records"
+      say_status "count", "#{DoiMapping.count} DOI records"
     end
 
     desc 'clear', 'clear DOI records from database'
     def clear
-      say_status "delete", "#{Doi.count} DOI records", :yellow
-      Doi.delete
+      say_status "delete", "#{DoiMapping.count} DOI records", :yellow
+      DoiMapping.delete
       invoke :count
     end
 

@@ -26,19 +26,24 @@ class Repository < Sequel::Model
         earliest_datestamp: response.earliest_datestamp)
   end
 
-  def list_records(resumption_token = nil)
-    client = OAI::Client.new base_url, parser: 'libxml'
-    opts = {}
-    opts[:resumption_token] = resumption_token unless resumption_token.nil?
-    response = client.list_records(opts)
+  def list_records(options = {})
+    limit = options[:limit] || Float::INFINITY
+    save  = options[:save]
 
-    dois = []
-    response.each do |record| 
+    client = OAI::Client.new base_url, parser: 'libxml'
+    response = client.list_records
+
+    mappings = []
+    response.full.each do |record| 
       doi_mapping = DoiMapping.new_or_update_from_oai self, record
-      dois << doi_mapping unless doi_mapping.nil?
+      unless doi_mapping.nil?
+        doi_mapping.save if save
+        mappings << doi_mapping
+        return mappings if mappings.length >= limit
+      end
     end
 
-    [dois, response.resumption_token]
+    mappings
   end
 
 end

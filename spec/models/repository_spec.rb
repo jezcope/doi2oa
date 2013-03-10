@@ -53,38 +53,58 @@ describe Repository, :models => true do
 
     describe "#list_records",
       vcr: { cassette_name: "repository/list_records",
-        record: :new_episodes,
         allow_playback_repeats: true} do
 
       before(:all) do
         @repository = Repository.find_or_create(base_url: "http://opus.bath.ac.uk/cgi/oai2")
       end
         
-      it "should fetch records from the server" do
-        records, resumption_token = @repository.list_records
-        records.length.should == 13
+      it "should fetch records with a limit" do
+        records = @repository.list_records(limit: 20)
+        records.length.should == 20
         records.each do |doi_mapping|
+          doi_mapping.class.should == DoiMapping
+          doi_mapping.should be_valid
           doi_mapping.repository.should == @repository
         end
       end
 
-      it "should fetch more records from the server" do
-        records, resumption_token = @repository.list_records
-        records, resumption_token = @repository.list_records resumption_token
-
-        records.length.should == 16
+      it "should fetch all records" do
+        records = @repository.list_records
+        records.length.should == 48
         records.each do |doi_mapping|
+          doi_mapping.class.should == DoiMapping
+          doi_mapping.should be_valid
           doi_mapping.repository.should == @repository
+        end
+      end
+
+      it "should not save DOI records by default" do
+        records = @repository.list_records(limit: 10)
+        records.each do |r|
+          r.should be_modified
+        end
+      end
+
+      it "should not save DOI records with save: false" do
+        records = @repository.list_records(limit: 10, save: false)
+        records.each do |r|
+          r.should be_modified
+        end
+      end
+
+      it "should save DOI records with save: true" do
+        records = @repository.list_records(limit: 10, save: true)
+        records.each do |r|
+          r.should_not be_modified
         end
       end
 
       it "should update instead of duplicating DOI records" do
-        records, resumption_token = @repository.list_records
-        records.each {|r| r.save}
+        records = @repository.list_records(limit: 10, save: true)
         count_before = DoiMapping.count
 
-        records, resumption_token = @repository.list_records
-        records.each {|r| r.save}
+        records = @repository.list_records(limit: 10, save: true)
         DoiMapping.count.should == count_before
       end
 

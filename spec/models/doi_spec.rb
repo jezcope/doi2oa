@@ -63,10 +63,19 @@ describe DoiMapping, :models => true do
 
       it "should construct a valid mapping" do
         @mapping.class.should == described_class
-        @mapping.repository.should == @repository
-        @mapping.doi.should == doi
-        @mapping.url.should == url
         @mapping.should be_valid
+      end
+
+      it "should have the right repository" do
+        @mapping.repository.should == @repository
+      end
+      
+      it "should have the right DOI" do
+        @mapping.doi.should == doi
+      end
+      
+      it "should have the right URL" do
+        @mapping.url.should == url
       end
     end
 

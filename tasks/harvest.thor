@@ -13,7 +13,7 @@ module Harvest
     desc 'list', 'list registered repositories'
     def list
       Repository.all.each do |r|
-        puts "#{r.base_url}: #{r.name || ''}"
+        puts "#{r.id} - #{r.base_url}: #{r.name || ''}"
       end
     end
 

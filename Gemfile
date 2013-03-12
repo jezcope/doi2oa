@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'thor'
 
+gem 'unicorn'
 gem 'sinatra'
 gem 'sinatra-contrib'
 

@@ -2,6 +2,8 @@ require 'sinatra'
 require 'sequel'
 require 'sequel/extensions/migration'
 
+require 'sprockets'
+
 require 'haml'
 require 'maruku'
 require 'compass'

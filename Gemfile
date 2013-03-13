@@ -8,10 +8,14 @@ gem 'sinatra-contrib'
 
 gem 'sequel'
 
+gem 'sprockets'
+gem 'sprockets-helpers'
+gem 'sprockets-sass'
 gem 'maruku'
 gem 'haml'
 gem 'compass'
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', git: 'http://github.com/millisami/bootstrap-sass.git'
+gem 'yui-compressor', require: 'yui/compressor'
 
 gem 'oai'
 gem 'libxml-ruby'

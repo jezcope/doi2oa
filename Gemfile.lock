@@ -48,7 +48,6 @@ GEM
       syntax (>= 1.0.0)
     multi_json (1.6.1)
     multipart-post (1.1.5)
-    mysql (2.9.1)
     oai (0.3.0)
       builder (>= 2.0.0)
       faraday
@@ -122,10 +121,10 @@ DEPENDENCIES
   haml
   libxml-ruby
   maruku
-  mysql
   oai
   pg
   rspec
+  sass
   sequel
   sinatra
   sinatra-contrib

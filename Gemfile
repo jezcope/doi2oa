@@ -13,6 +13,7 @@ gem 'sprockets-helpers'
 gem 'sprockets-sass'
 gem 'maruku'
 gem 'haml'
+gem 'sass'
 gem 'compass'
 gem 'bootstrap-sass', git: 'http://github.com/millisami/bootstrap-sass.git'
 gem 'yui-compressor', require: 'yui/compressor'
@@ -24,7 +25,6 @@ gem 'activesupport'
 gem 'andand'
 
 group :production do
-  gem 'mysql'
   gem 'pg'
 end
 

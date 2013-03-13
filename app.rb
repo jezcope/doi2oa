@@ -6,6 +6,7 @@ require 'sprockets'
 
 require 'haml'
 require 'maruku'
+require 'sass'
 require 'compass'
 require 'bootstrap-sass'
 
@@ -17,6 +18,25 @@ class Doi2Oa < Sinatra::Base
     set :haml,      format: :html5, layout: :layout
     set :scss,      style: :compact, debug_info: false
     set :markdown,  layout: :layout, layout_engine: :haml
+
+    set :assets_path, '/assets'
+
+    environment = Sprockets::Environment.new
+    %w{images javascripts stylesheets}.each do |type|
+      environment.append_path File.join(Compass::Frameworks['bootstrap'].path, 'vendor', 'assets', type)
+      environment.append_path File.join('assets', type)
+    end
+
+    environment.js_compressor = YUI::JavaScriptCompressor.new
+    environment.css_compressor = YUI::CssCompressor.new
+
+    environment.context_class.class_eval do
+      def asset_path(path, options = {})
+        File.join(Doi2Oa.assets_path, path)
+      end
+    end
+
+    set :sprockets, environment
   end
 
   configure :development, :production do
@@ -58,11 +78,6 @@ class Doi2Oa < Sinatra::Base
 
   get '/about' do
     markdown :about
-  end
-
-  get '/application.css' do
-    content_type 'text/css', charset: 'utf-8'
-    scss :application, Compass.sass_engine_options
   end
 
   get '/repositories' do

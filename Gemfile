@@ -15,6 +15,7 @@ gem 'maruku'
 gem 'haml'
 gem 'compass'
 gem 'bootstrap-sass', git: 'http://github.com/millisami/bootstrap-sass.git'
+gem 'yui-compressor', require: 'yui/compressor'
 
 gem 'oai'
 gem 'libxml-ruby'

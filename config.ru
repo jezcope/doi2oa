@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'bundler'
-require 'pp'
-Bundler.setup
+Bundler.require
 
 require './app.rb'
 
@@ -11,8 +10,10 @@ map '/assets' do
     environment.append_path File.join(Compass::Frameworks['bootstrap'].path, 'vendor', 'assets', type)
     environment.append_path File.join('assets', type)
   end
-  # environment.js_compressor = Uglifier.new(:copyright => false)
-  # environment.css_compressor = YUI::CssCompressor.new
+
+  environment.js_compressor = YUI::JavaScriptCompressor.new
+  environment.css_compressor = YUI::CssCompressor.new
+
   environment.context_class.class_eval do
     def asset_path(path, options = {})
       File.join('/assets', path)

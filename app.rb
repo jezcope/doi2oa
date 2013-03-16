@@ -9,6 +9,7 @@ require 'maruku'
 require 'sass'
 require 'compass'
 require 'bootstrap-sass'
+require 'yui/compressor'
 
 class Doi2Oa < Sinatra::Base
 

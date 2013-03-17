@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <header>
+    <identifier>oai:opus.bath.ac.uk:34244</identifier>
+    <datestamp>2013-03-15T12:21:00Z</datestamp>
+    <setSpec>7374617475733D707562</setSpec>
+    <setSpec>74797065733D61727469636C65</setSpec>
+  </header>
+  <metadata>
+    <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+
+      <dc:title>Topological ferrimagnetism and superparamagnetic-like
+      behaviour in a disordered homometallic coordination network</dc:title>
+      <dc:creator>Patel, Rina</dc:creator>
+      <dc:creator>Weller, Mark T.</dc:creator>
+      <dc:creator>Price, Daniel J.</dc:creator>
+      <dc:date>2007-01-01</dc:date>
+      <dc:type>Articles</dc:type>
+      <dc:type>NonPeerReviewed</dc:type>
+      <dc:relation>http://dx.doi.org/: 10.1039/B706829H</dc:relation>
+      <dc:identifier>Patel, R., Weller, M. T. and Price, D. J., 2007.
+      Topological ferrimagnetism and superparamagnetic-like behaviour in a
+      disordered homometallic coordination network. Dalton Transactions, 2007
+      (36), p. 4034.</dc:identifier>
+      <dc:relation>http://opus.bath.ac.uk/34244/</dc:relation>
+    </oai_dc:dc>
+  </metadata>
+</record>

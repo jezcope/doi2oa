@@ -57,7 +57,12 @@ class DoiMapping < Sequel::Model
     if doi_candidates.length > 0
       mapping = find_or_new(repository: repository, doi: doi_candidates.first)
       mapping.url = url_candidates.first
-      return mapping
+
+      # Assume full text is available iff <dc:format> elements are present
+      formats = metadata.find('.//dc:format', NAMESPACES)
+      mapping.has_fulltext = formats.length > 0
+
+      mapping
     end
   end
 

@@ -12,6 +12,8 @@ describe DoiMapping, :models => true do
       XML::Document.file('spec/fixtures/record_both_relation.xml').root)
     @record_both_identifier = OAI::Record.new(
       XML::Document.file('spec/fixtures/record_both_identifier.xml').root)
+    @record_no_fulltext = OAI::Record.new(
+      XML::Document.file('spec/fixtures/record_no_fulltext.xml').root)
     @repository = create(:repository)
   end
 
@@ -80,6 +82,10 @@ describe DoiMapping, :models => true do
       it "should have the right URL" do
         @mapping.url.should == url
       end
+
+      it "should have the right value for has_fulltext" do
+        @mapping.has_fulltext.should == has_fulltext
+      end
     end
 
     describe "when DOI and URL are dc:relation" do
@@ -87,6 +93,7 @@ describe DoiMapping, :models => true do
         let(:record)  {@record_both_relation}
         let(:doi)     {"10.1016/j.laa.2007.11.013"}
         let(:url)     {"http://opus.bath.ac.uk/167/"}
+        let(:has_fulltext) {true}
       end
     end
 
@@ -95,6 +102,16 @@ describe DoiMapping, :models => true do
         let(:record)  {@record_both_identifier}
         let(:doi)     {"10.6092/issn.1973-9494/1265"}
         let(:url)     {"http://conservation-science.unibo.it/article/view/1265"}
+        let(:has_fulltext) {true}
+      end
+    end
+
+    describe "when no full-text is available" do
+      it_has_behaviour "construct from OAI::Record" do
+        let(:record)  {@record_no_fulltext}
+        let(:doi)     {"10.1039/B706829H"}
+        let(:url)     {"http://opus.bath.ac.uk/34244/"}
+        let(:has_fulltext) {false}
       end
     end
 
@@ -121,6 +138,10 @@ describe DoiMapping, :models => true do
 
     it "should respond to url" do
       @mapping.should respond_to(:url)
+    end
+
+    it "should respond to has_fulltext" do
+      @mapping.should respond_to(:has_fulltext)
     end
 
   end

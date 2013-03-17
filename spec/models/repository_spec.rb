@@ -32,6 +32,10 @@ describe Repository, :models => true do
       build(:repository, base_url: "Not a URL").should_not be_valid
     end
 
+    it "should allow base_url with a port" do
+      build(:repository, base_url: "http://ora.ox.ac.uk:8080/fedora/oai").should_not be_valid
+    end
+
   end
 
   describe "OAI-PMH" do

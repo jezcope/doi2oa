@@ -22,8 +22,8 @@ class DoiMapping < Sequel::Model
   end
 
   def doi=(value)
-    # sanitise DOI by removing leading/trailing space
-    super(value.andand.strip)
+    # sanitise DOI by removing common errors
+    super(value.andand.sub(/^\s*(doi)?:?\s*/, '').strip)
   end
   
   def self.find_or_new(*args)

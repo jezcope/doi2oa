@@ -39,13 +39,16 @@ describe DoiMapping, :models => true do
     end
 
     it "should clean up some common DOI errors" do
-      mapping = build(:doi_mapping, doi: ' 10.1001/with-a-space-in-front')
-      mapping.should be_valid
-      mapping.doi.should == '10.1001/with-a-space-in-front'
-
-      mapping = build(:doi_mapping, doi: '10.1001/with-spaces-behind  ')
-      mapping.should be_valid
-      mapping.doi.should == '10.1001/with-spaces-behind'
+      {
+        ' 10.1001/with-a-space-in-front'  => '10.1001/with-a-space-in-front',
+        '10.1001/with-spaces-behind  '    => '10.1001/with-spaces-behind',
+        ': 10.1039/B706829H'              => '10.1039/B706829H',
+        'doi:10.1001/with-protocol'       => '10.1001/with-protocol'
+      }.each do |input, actual|
+        mapping = build(:doi_mapping, doi: input)
+        mapping.should be_valid, "DOI '#{input}' not valid"
+        mapping.doi.should == actual
+      end
     end
 
     it "should require URL to be in the right format" do
@@ -100,6 +103,24 @@ describe DoiMapping, :models => true do
       mapping2 = described_class.new_or_update_from_oai(@repository, @record_both_relation)
 
       mapping1.id.should == mapping2.id
+    end
+
+  end
+
+  describe "attributes" do
+
+    before(:all) { @mapping = create(:doi_mapping) }
+
+    it "should respond to repository" do
+      @mapping.should respond_to(:repository)
+    end
+
+    it "should respond to doi" do
+      @mapping.should respond_to(:doi)
+    end
+
+    it "should respond to url" do
+      @mapping.should respond_to(:url)
     end
 
   end

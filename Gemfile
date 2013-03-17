@@ -24,6 +24,8 @@ gem 'libxml-ruby'
 gem 'activesupport'
 gem 'andand'
 
+gem 'beaneater'
+
 group :production do
   gem 'pg'
 end

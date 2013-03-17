@@ -1,6 +1,7 @@
 require 'sequel'
 require 'andand'
 require 'oai'
+require 'active_support/core_ext'
 
 require_relative 'doi_mapping'
 
@@ -43,11 +44,8 @@ class Repository < Sequel::Model
     save  = options.fetch(:save,  false)
     full  = options.fetch(:full,  false)
 
-    list_opts = {}
-    list_opts[:resumption_token] = options[:resumption_token] if options.has_key?(:resumption_token)
-
     client = OAI::Client.new base_url, parser: 'libxml'
-    response = client.list_records(list_opts)
+    response = client.list_records(options.slice(:resumption_token))
     resumption_token = response.resumption_token
 
     mappings = []

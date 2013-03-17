@@ -63,18 +63,47 @@ describe Repository, :models => true do
         @repository = Repository.find_or_create(base_url: "http://opus.bath.ac.uk/cgi/oai2")
       end
         
-      it "should fetch records with a limit" do
-        records = @repository.list_records(limit: 20)
-        records.length.should == 20
+      it "should fetch one batch of records by default" do
+        response = @repository.list_records
+        records = response.mappings
+        
+        response.resumption_token.should_not be_nil
+
+        records.length.should == 13
         records.each do |doi_mapping|
-          doi_mapping.class.should == DoiMapping
-          doi_mapping.should be_valid
           doi_mapping.repository.should == @repository
         end
       end
 
-      it "should fetch all records" do
-        records = @repository.list_records
+      it "should fetch one batch of records with full: false" do
+        response = @repository.list_records(full: false)
+        records = response.mappings
+        
+        response.resumption_token.should_not be_nil
+
+        records.length.should == 13
+        records.each do |doi_mapping|
+          doi_mapping.repository.should == @repository
+        end
+      end
+
+      it "should fetch more records from the server" do
+        response = @repository.list_records
+        response = @repository.list_records(resumption_token: response.resumption_token)
+        records = response.mappings
+
+        records.length.should == 16
+        records.each do |doi_mapping|
+          doi_mapping.repository.should == @repository
+        end
+      end
+
+      it "should fetch all records with full: true" do
+        response = @repository.list_records(full: true)
+        records = response.mappings
+
+        response.resumption_token.should be_nil
+
         records.length.should == 48
         records.each do |doi_mapping|
           doi_mapping.class.should == DoiMapping
@@ -83,32 +112,42 @@ describe Repository, :models => true do
         end
       end
 
+      it "should fetch records with a limit" do
+        records = @repository.list_records(limit: 20, full: true).mappings
+        records.length.should == 20
+        records.each do |doi_mapping|
+          doi_mapping.class.should == DoiMapping
+          doi_mapping.should be_valid
+          doi_mapping.repository.should == @repository
+        end
+      end
+
       it "should not save DOI records by default" do
-        records = @repository.list_records(limit: 10)
+        records = @repository.list_records(limit: 10).mappings
         records.each do |r|
           r.should be_modified
         end
       end
 
       it "should not save DOI records with save: false" do
-        records = @repository.list_records(limit: 10, save: false)
+        records = @repository.list_records(limit: 10, save: false).mappings
         records.each do |r|
           r.should be_modified
         end
       end
 
       it "should save DOI records with save: true" do
-        records = @repository.list_records(limit: 10, save: true)
+        records = @repository.list_records(limit: 10, save: true).mappings
         records.each do |r|
           r.should_not be_modified
         end
       end
 
       it "should update instead of duplicating DOI records" do
-        records = @repository.list_records(limit: 10, save: true)
+        @repository.list_records(limit: 10, save: true)
         count_before = DoiMapping.count
 
-        records = @repository.list_records(limit: 10, save: true)
+        records = @repository.list_records(limit: 10, save: true).mappings
         DoiMapping.count.should == count_before
       end
 

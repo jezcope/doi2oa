@@ -1,6 +1,7 @@
 require 'sequel'
 require 'andand'
 require 'oai'
+require 'active_support/core_ext'
 
 require_relative 'doi_mapping'
 
@@ -8,6 +9,18 @@ class Repository < Sequel::Model
   plugin :validation_helpers
 
   one_to_many :doi_mappings
+
+  class ListRecordsResponse
+
+    def initialize(mappings, resumption_token = nil)
+      @mappings = mappings
+      @resumption_token = resumption_token
+    end
+
+    attr_reader :mappings
+    attr_reader :resumption_token
+
+  end
   
   def validate
     super
@@ -27,23 +40,30 @@ class Repository < Sequel::Model
   end
 
   def list_records(options = {})
-    limit = options[:limit] || Float::INFINITY
-    save  = options[:save]
+    limit = options.fetch(:limit, Float::INFINITY)
+    save  = options.fetch(:save,  false)
+    full  = options.fetch(:full,  false)
 
     client = OAI::Client.new base_url, parser: 'libxml'
-    response = client.list_records
+    response = client.list_records(options.slice(:resumption_token))
+    resumption_token = response.resumption_token
 
     mappings = []
-    response.full.each do |record| 
+
+    response = response.full if full
+    
+    response.each do |record| 
       doi_mapping = DoiMapping.new_or_update_from_oai self, record
       unless doi_mapping.nil?
         doi_mapping.save if save
         mappings << doi_mapping
-        return mappings if mappings.length >= limit
+        if mappings.length >= limit
+          return ListRecordsResponse.new(mappings) 
+        end
       end
     end
 
-    mappings
+    ListRecordsResponse.new(mappings, full ? nil : resumption_token)
   end
 
 end

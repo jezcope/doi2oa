@@ -42,10 +42,27 @@ describe DoiMapping, :models => true do
 
     it "should clean up some common DOI errors" do
       {
-        ' 10.1001/with-a-space-in-front'  => '10.1001/with-a-space-in-front',
+        # Leading whitespace:
+        "\t 10.1001/with-a-space-in-front"  => '10.1001/with-a-space-in-front',
+        # Trailing whitespace:
         '10.1001/with-spaces-behind  '    => '10.1001/with-spaces-behind',
+        # Leading c**p separated by a space:
         ': 10.1039/B706829H'              => '10.1039/B706829H',
-        'doi:10.1001/with-protocol'       => '10.1001/with-protocol'
+        # With lowercase protocol:
+        'doi:10.1001/with-protocol'       => '10.1001/with-protocol',
+        # With uppercase protocol:
+        'DOI:10.1017/S0040298204000014'   => '10.1017/S0040298204000014',
+        # URL-encoded:
+        '10.1371%2Fjournal.pmed.1001115'  => '10.1371/journal.pmed.1001115',
+        # In dx.doi.org URL form:
+        'http://dx.doi.org/10.1001/archinte.168.6.598' \
+                                          => '10.1001/archinte.168.6.598',
+        # Zero-width spaces:
+        "10.\u200B1152/\u200Bajpendo.\u200B00325.\u200B2003" \
+                                          => '10.1152/ajpendo.00325.2003',
+        # Combination of protocol and leading cruft:
+        '952-954 doi:10.1353/jsh.2011.0036' \
+                                          => '10.1353/jsh.2011.0036',
       }.each do |input, actual|
         mapping = build(:doi_mapping, doi: input)
         mapping.should be_valid, "DOI '#{input}' not valid"

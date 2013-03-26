@@ -1,4 +1,5 @@
 require 'sequel'
+require 'cgi'
 require 'andand'
 
 class DoiMapping < Sequel::Model
@@ -23,7 +24,38 @@ class DoiMapping < Sequel::Model
 
   def doi=(value)
     # sanitise DOI by removing common errors
-    super(value.andand.sub(/^\s*(doi)?:?\s*/, '').strip)
+    super(DoiMapping.sanitise(value))
+  end
+
+  CLEANUP = [
+    # URL-escaped versions
+    proc {|x| CGI::unescape(x)},
+    # Rubbish at the start separated by a space
+    /^.*[[:space:]]+(?=\S)/,
+    # Rubbish at the end separated by a space
+    /(?<=\S)[[:space:]]+.*$/,
+    # Other spaces (including zero-width)
+    /[\u200B-\u200D[[:space:]]]+/,
+    # URL and protocol forms
+    %r{^https?://(dx.doi.org|hdl.handle.net)/|(?i:doi)?:?},
+    # Leading & trailing space
+    proc {|x| x.strip},
+  ]
+
+  def self.sanitise(dirty)
+    return unless dirty.is_a? String
+    clean = dirty
+
+    CLEANUP.each do |step|
+      case step
+      when Regexp
+        clean = clean.gsub(step, '')
+      when Proc
+        clean = step.call(clean)
+      end
+    end
+    
+    clean
   end
   
   def self.find_or_new(*args)
